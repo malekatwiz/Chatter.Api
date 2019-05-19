@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatter.Api", "Chatter.Api\Chatter.Api.csproj", "{DE745F4B-7E88-4F0E-9157-9AEA1D47B866}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE745F4B-7E88-4F0E-9157-9AEA1D47B866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE745F4B-7E88-4F0E-9157-9AEA1D47B866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE745F4B-7E88-4F0E-9157-9AEA1D47B866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE745F4B-7E88-4F0E-9157-9AEA1D47B866}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38AE9923-8B01-4AD4-A6FD-964F43C9C85D}
+	EndGlobalSection
+EndGlobal
