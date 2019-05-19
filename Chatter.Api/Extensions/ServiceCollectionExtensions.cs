@@ -1,5 +1,6 @@
-﻿using IdentityServer4;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
+using static IdentityServer4.IdentityServerConstants;
 
 namespace Chatter.Api.Extensions
 {
@@ -7,23 +8,23 @@ namespace Chatter.Api.Extensions
     {
         public static void RegisterIdentityServer(this IServiceCollection services)
         {
-            services.AddIdentityServer();
             services.AddAuthentication(options =>
             {
-                options.DefaultScheme = "Cookies";
-                options.DefaultChallengeScheme = "oidc";
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = ProtocolTypes.OpenIdConnect;
             })
-            .AddCookie("Cookies")
-            .AddOpenIdConnect("oidc", options =>
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddOpenIdConnect(ProtocolTypes.OpenIdConnect, options =>
             {
-                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                options.SignOutScheme = IdentityServerConstants.SignoutScheme;
+                //options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                //options.SignInScheme = IdentityServerConstants.DefaultCookieAuthenticationScheme;
+                //options.SignOutScheme = IdentityServerConstants.SignoutScheme;
 
                 options.Authority = "https://localhost:44331/";
                 options.RequireHttpsMetadata = false;
                 
                 options.ClientId = "Chatter.App";
-                options.ResponseType = "id_token";
+                options.ResponseType = TokenTypes.IdentityToken;
                 options.SaveTokens = true;
             });
         }
