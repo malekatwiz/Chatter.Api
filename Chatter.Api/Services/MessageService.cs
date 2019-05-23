@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,14 +17,28 @@ namespace Chatter.Api.Services
             _repository = repository;
         }
 
-        public Task Create(Message message)
+        public async Task<bool> Create(Message message)
         {
-            return _repository.Insert(message, CancellationToken.None);
+            try
+            {
+                await _repository.Insert(message, CancellationToken.None);
+                return true;
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return false;
         }
 
         public Task<IEnumerable<Message>> Get(int page = 1, int pageSize = 10)
         {
             return Task.FromResult(_repository.All<Message>().Skip((page - 1) * pageSize).Take(pageSize).AsEnumerable());
+        }
+
+        public Task<Message> Get(Guid requestId)
+        {
+            return Task.FromResult(_repository.Find<Message>(x => x.RequestId.Equals(requestId)));
         }
     }
 }

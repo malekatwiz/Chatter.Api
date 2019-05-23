@@ -3,6 +3,7 @@ using Chatter.Api.Models;
 using Chatter.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Chatter.Api.Controllers
@@ -19,21 +20,37 @@ namespace Chatter.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            return new JsonResult(_messageService.Get());
+            return new JsonResult(_messageService.Get(page, pageSize))
+            { StatusCode = (int)HttpStatusCode.OK };
         }
 
         [HttpPost("send")]
         public async Task<IActionResult> Send([FromBody]SendMessageModel model)
         {
-            await _messageService.Create(new Message
+            if (IsSendMessageModelValid(model))
             {
-                Text = model.Text,
-                UserId = model.UserId
-            });
+                if (await _messageService.Create(new Message(model.UserId, model.Text, model.RequestId)))
+                {
+                    return Ok(_messageService.Get(model.RequestId));
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
 
-            return Ok();
+            return new ObjectResult(null) { StatusCode = (int)HttpStatusCode.InternalServerError };
+        }
+
+        private bool IsSendMessageModelValid(SendMessageModel model)
+        {
+            if (model == null || string.IsNullOrEmpty(model.UserId) || string.IsNullOrEmpty(model.Text))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
